@@ -1,6 +1,6 @@
 # Player-API Getter
 
-Este meu projeto é uma simples API em java utilizando String Boot para retornar estatísticas de um usuário em seu Servidor.
+Este meu projeto é uma simples API em java utilizando String Boot para retornar estatísticas de um usuário em seu Servidor de Minecraft.
 
 ## Pré-requisitos
 
