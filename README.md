@@ -28,7 +28,7 @@ O projeto foi criado como exercício de portfólio, com foco em boas práticas d
 
 ```bash
 # Clone o repositório
-git clone https://github.com/seu-usuario/PlayerAPI.git
+git clone https://github.com/ggaaraujodev/PlayerAPI.git
 cd PlayerAPI
 ```
 
