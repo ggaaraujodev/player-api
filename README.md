@@ -1,87 +1,73 @@
 # Player API
 
-Este projeto é uma **API REST simples em Java utilizando Spring Boot** que retorna estatísticas de um jogador a partir de um banco de dados de um **servidor de Minecraft**.
+API REST desenvolvida em **Java com Spring Boot** para consulta de estatísticas de jogadores a partir de um banco de dados de um servidor de Minecraft.
 
-O objetivo do projeto é demonstrar como criar uma API básica usando **Java, Spring Boot e MySQL**, permitindo consultar informações de jogadores de forma simples através de um endpoint.
+O projeto foi criado como exercício de portfólio, com foco em boas práticas de arquitetura (separação em camadas Controller/Request/Response), persistência com MySQL e estrutura básica de uma API REST com Spring Boot.
 
----
+## Funcionalidades
 
-## 🚀 Funcionalidades
+- Consulta de estatísticas de jogadores via endpoint REST
+- Estrutura simples para estudo de Spring Boot
+- Fácil de adaptar para outros bancos ou plugins de Minecraft
 
-* Buscar estatísticas de jogadores no banco de dados
-* Endpoint REST para consulta de dados
-* Estrutura simples para estudo de **Spring Boot**
-* Fácil de adaptar para outros bancos ou plugins de Minecraft
+## Tecnologias
 
----
+- Java 17
+- Spring Boot
+- MySQL
+- Maven
 
-## 📋 Pré-requisitos
+## Como executar
 
-Antes de executar o projeto, você precisa ter instalado:
+### Pré-requisitos
+- [JDK 17](https://www.oracle.com/java/technologies/downloads/)
+- MySQL (pode usar o XAMPP)
+- IntelliJ IDEA ou outra IDE Java
 
-* **JDK 17**
-* **MySQL** (pode usar o XAMPP)
-* **IntelliJ IDEA** ou outra IDE Java
-* **Maven** (normalmente já incluso em projetos Spring Boot)
+### Passo a passo
 
----
+```bash
+# Clone o repositório
+git clone https://github.com/seu-usuario/PlayerAPI.git
+cd PlayerAPI
+```
 
-## ⚙️ Configuração
-
-Antes de iniciar a aplicação, configure a conexão com o banco de dados.
-
-Edite o arquivo:
-
+Configure a conexão com o banco de dados no arquivo:
 ```
 src/main/resources/application.properties
 ```
 
-E altere as seguintes informações de acordo com o seu banco de dados:
+Altere conforme seu banco:
+- Nome da database
+- Usuário
+- Senha
+- Porta (caso seja diferente da padrão)
 
-* Nome da database
-* Usuário
-* Senha
-* Porta (caso seja diferente da padrão)
+Abra o projeto no IntelliJ IDEA, localize a classe `Application` e clique em **Run**.
 
----
+A API estará disponível em `http://localhost:8080`.
 
-## ▶️ Executando o projeto
+## Endpoints
 
-1. Abra o projeto no **IntelliJ IDEA**
-2. Localize a classe `Application`
-3. Clique em **Run**
-
-O servidor será iniciado em:
-
+### Consultar estatísticas de um jogador
 ```
-http://localhost:8080
+GET /player/{nick}
 ```
 
----
-
-## 📡 Utilizando a API
-
-Para consultar as estatísticas de um jogador, acesse o endpoint:
-
+**Exemplo:**
 ```
-http://localhost:8080/player/{nick}
+GET /player/Steve
 ```
 
-Exemplo:
+## Estrutura do projeto
 
-```
-http://localhost:8080/player/Steve
-```
+- **Users** — entidade que representa o usuário no banco
+- **UserRequest** — classe usada para requisições
+- **UserResponse** — classe usada para respostas da API
+- **DataController** — controller responsável pelos endpoints da API
 
----
+## Possíveis melhorias futuras
 
-## 🛠 Estrutura do Projeto
-
-Algumas partes importantes do projeto:
-
-* **Users** → entidade que representa o usuário no banco
-* **UserRequest** → classe usada para requisições
-* **UserResponse** → classe usada para respostas da API
-* **DataController** → controller responsável pelos endpoints da API
-
-Você pode adaptar essas classes de acordo com os dados que deseja retornar do banco.
+- Documentação interativa via Swagger
+- Testes unitários (JUnit + Mockito)
+- Tratamento de erros mais robusto
