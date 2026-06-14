@@ -1,73 +1,101 @@
 # Player API
 
-API REST desenvolvida em **Java com Spring Boot** para consulta de estatísticas de jogadores a partir de um banco de dados de um servidor de Minecraft.
+API REST em Java + Spring Boot para buscar dados de jogadores do Minecraft diretamente da API oficial da Mojang, incluindo UUID, skin, signature e cape.
 
-O projeto foi criado como exercício de portfólio, com foco em boas práticas de arquitetura (separação em camadas Controller/Request/Response), persistência com MySQL e estrutura básica de uma API REST com Spring Boot.
-
-## Funcionalidades
-
-- Consulta de estatísticas de jogadores via endpoint REST
-- Estrutura simples para estudo de Spring Boot
-- Fácil de adaptar para outros bancos ou plugins de Minecraft
+---
 
 ## Tecnologias
 
 - Java 17
-- Spring Boot
-- MySQL
-- Maven
+- Spring Boot 3.3.4
+- Lombok
+- API oficial da Mojang (SessionServer)
 
-## Como executar
-
-### Pré-requisitos
-- [JDK 17](https://www.oracle.com/java/technologies/downloads/)
-- MySQL (pode usar o XAMPP)
-- IntelliJ IDEA ou outra IDE Java
-
-### Passo a passo
-
-```bash
-# Clone o repositório
-git clone https://github.com/ggaaraujodev/PlayerAPI.git
-cd PlayerAPI
-```
-
-Configure a conexão com o banco de dados no arquivo:
-```
-src/main/resources/application.properties
-```
-
-Altere conforme seu banco:
-- Nome da database
-- Usuário
-- Senha
-- Porta (caso seja diferente da padrão)
-
-Abra o projeto no IntelliJ IDEA, localize a classe `Application` e clique em **Run**.
-
-A API estará disponível em `http://localhost:8080`.
+---
 
 ## Endpoints
 
-### Consultar estatísticas de um jogador
+### GET /player/{nick}
+
+Retorna os dados do jogador com o nick informado.
+
+Exemplo de requisição:
 ```
-GET /player/{nick}
+GET /player/Notch
 ```
 
-**Exemplo:**
+Resposta de sucesso (200 OK):
+```json
+{
+  "success": true,
+  "response": {
+    "nick": "Notch",
+    "uuid": "069a79f4-44e9-4726-a5be-fca90e38aaf5",
+    "premium": true,
+    "skinUrl": "http://textures.minecraft.net/texture/...",
+    "skinModel": "classic",
+    "signature": "BASE64...",
+    "capeUrl": null
+  }
+}
 ```
-GET /player/Steve
+
+Resposta de erro (404 Not Found):
+```json
+{
+  "success": false,
+  "error_code": 404,
+  "response": {
+    "message": "Not Found",
+    "status": 404
+  }
+}
 ```
 
-## Estrutura do projeto
+---
 
-- **Users** — entidade que representa o usuário no banco
-- **UserRequest** — classe usada para requisições
-- **UserResponse** — classe usada para respostas da API
-- **DataController** — controller responsável pelos endpoints da API
+## Como rodar
 
-## Possíveis melhorias futuras
+1. Clone o repositório:
+```bash
+git clone https://github.com/ggaaraujodev/player-api.git
+cd player-api
+```
 
-- Documentação interativa via Swagger
-- Testes unitários (JUnit + Mockito)
-- Tratamento de erros mais robusto
+2. Rode com o Maven Wrapper:
+
+Windows:
+```cmd
+mvnw spring-boot:run
+```
+
+Linux/Mac:
+```bash
+./mvnw spring-boot:run
+```
+
+3. Acesse:
+```
+http://localhost:8080/player/{nick}
+```
+
+---
+
+## Cache
+
+Para evitar abusar do rate limit da Mojang (~200 req/min), a API utiliza cache em memória com expiração de 5 minutos por nick consultado.
+
+---
+
+## Observações
+
+- Um jogador é considerado premium se a Mojang retornar um UUID válido para o nick informado.
+- A signature é assinada com a chave privada da Mojang (RSA) e pode ser usada para verificar autenticidade da skin no servidor.
+- O campo skinModel retorna "slim" (Alex) ou "classic" (Steve).
+- capeUrl retorna null caso o jogador não possua capa.
+
+---
+
+## Licença
+
+MIT
